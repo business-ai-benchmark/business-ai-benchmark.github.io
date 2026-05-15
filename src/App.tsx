@@ -209,7 +209,7 @@ export default function App() {
             </div>
           </div>
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-white/20 pt-8">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-t border-white/20 pt-8">
             <div className="space-y-2 text-lg text-slate-200">
               <p className="font-semibold text-white leading-relaxed">
                 {paperMetadata.authors.map((author, idx) => (
