@@ -9,14 +9,19 @@ const paperMetadata = {
   title: "Benchmarking AI on Knowledge Work with Realistic Business Cases",
   subtitle: "and the Implications for Business Education and White-Collar Labor",
   authors: [
-    { firstName: "Ajay", lastName: "Patel", affiliationIds: [1, 2] },
-    { firstName: "Jane", lastName: "Doe", affiliationIds: [1] },
-    { firstName: "Michael", lastName: "Chen", affiliationIds: [3] }
+    { firstName: "Ajay", lastName: "Patel", affiliationIds: [1], isCorresponding: true, orcid: "0009-0003-1655-8703" },
+    { firstName: "Kartik", lastName: "Hosanagar", affiliationIds: [1], orcid: "0000-0002-6442-9434" },
+    { firstName: "Ramayya", lastName: "Krishnan", affiliationIds: [2], orcid: "0000-0001-9935-2468" },
+    { firstName: "Chris", lastName: "Callison-Burch", affiliationIds: [3], orcid: "0000-0001-8196-1943" },
+    { firstName: "Karim", lastName: "Lakhani", affiliationIds: [4], orcid: "0000-0002-5535-8304" },
+    { firstName: "Mitch", lastName: "Weiss", affiliationIds: [5] }
   ],
   affiliations: [
-    { id: 1, name: "The Wharton School, University of Pennsylvania", short: "WHARTON", logo: "/wharton.png", logoClass: "h-10 overflow-visible scale-110 origin-center" },
+    { id: 1, name: "Operations, Information and Decisions Department, The Wharton School, University of Pennsylvania", short: "WHARTON", logo: "/wharton.png", logoClass: "h-10 overflow-visible scale-110 origin-center" },
     { id: 2, name: "Heinz College of Information Systems and Public Policy, Carnegie Mellon University", short: "CMU HEINZ", logo: "/cmu.png", logoClass: "h-5" },
-    { id: 3, name: "Harvard Business School, Harvard University", short: "HBS", logo: "/hbs.png", logoClass: "h-10 overflow-visible scale-125 origin-center" }
+    { id: 3, name: "Department of Computer and Information Science, University of Pennsylvania", short: "UPENN" },
+    { id: 4, name: "Technology and Operations Management Unit, Harvard Business School, Harvard University", short: "HBS", logo: "/hbs.png", logoClass: "h-10 overflow-visible scale-125 origin-center" },
+    { id: 5, name: "Entrepreneurial Management Unit, Harvard Business School, Harvard University", short: "HBS", logo: "/hbs.png", logoClass: "h-10 overflow-visible scale-125 origin-center" }
   ],
   correspondence: "me@ajayp.app",
   date: "May 2026",
@@ -214,8 +219,17 @@ export default function App() {
               <p className="font-semibold text-white leading-relaxed">
                 {paperMetadata.authors.map((author, idx) => (
                   <span key={idx} className="inline-block mr-2 mb-1 md:mb-0">
-                    {author.firstName} {author.lastName}
-                    <sup className="text-xs ml-0.5">{author.affiliationIds.join(',')}</sup>
+                    {author.orcid ? (
+                      <a href={`https://orcid.org/${author.orcid}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {author.firstName} {author.lastName}
+                      </a>
+                    ) : (
+                      <>{author.firstName} {author.lastName}</>
+                    )}
+                    <sup className="text-xs ml-0.5">
+                      {author.affiliationIds.join(',')}
+                      {author.isCorresponding && ',∗'}
+                    </sup>
                     {idx < paperMetadata.authors.length - 1 && ","}
                   </span>
                 ))}
@@ -229,7 +243,9 @@ export default function App() {
               </p>
               
               <div className="flex flex-wrap items-center gap-6 mt-6 opacity-90">
-                {paperMetadata.affiliations.map(affil => (
+                {paperMetadata.affiliations.filter((affil, idx, arr) =>
+                  affil.logo ? arr.findIndex(a => a.logo === affil.logo) === idx : arr.findIndex(a => a.id === affil.id) === idx
+                ).map(affil => (
                   <div key={affil.id} className="h-11 px-3 bg-white rounded shadow-sm flex items-center justify-center transition-transform hover:scale-105" title={affil.name}>
                     {affil.logo ? (
                       <img src={affil.logo} alt={affil.name} className={`${affil.logoClass || 'h-7'} w-auto object-contain`} />
