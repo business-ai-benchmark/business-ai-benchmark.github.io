@@ -257,10 +257,10 @@ export default function App() {
               </div>
             </div>
             
-            <div className="text-sm text-slate-300 font-serif">
+            <div className="text-xs text-slate-300 font-serif">
               <p className="flex items-center gap-2 mb-1">
                 <Mail className="w-4 h-4" />
-                Direct Correspondence To:
+                Correspondence To:
               </p>
               <a href={`mailto:${paperMetadata.correspondence}`} className="text-white hover:text-blue-200 hover:underline transition-colors">{paperMetadata.correspondence}</a>
               <p className="mt-2 text-xs opacity-70">Working Paper — {paperMetadata.date}</p>
