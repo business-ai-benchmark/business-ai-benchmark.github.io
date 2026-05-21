@@ -39,7 +39,7 @@ const figures = [
   {
     id: "fig-pipeline",
     src: "/figures/benchmark_pipeline_diagram.png",
-    caption: "Figure 1: Evaluation pipeline. Case narratives and open-ended questions are paired with reference solutions from instructor case solutions, converted into equally-weighted checklist rubrics, answered by frontier models, and scored criterion by criterion with an LLM-as-judge."
+    caption: "Figure 1: Evaluation pipeline. Case narratives and open-ended questions are paired with reference solutions from instructor case solutions, converted into equally-weighted checklist rubrics, answered by frontier models, and scored criterion by criterion with an LLM-as-judge. Human annotators with business school grading experience validate automatic rubrics and grading on a stratified sample."
   },
   {
     id: "fig-scores",
