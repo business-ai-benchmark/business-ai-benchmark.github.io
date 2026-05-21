@@ -729,7 +729,7 @@ export default function App() {
           <section id="difficulty" className="scroll-mt-12 mb-16 space-y-6">
             <h2 className="text-3xl font-display font-semibold text-slate-900 mb-6">What Still Differentiates Difficulty</h2>
             <p>
-              Question type strata provide much less predictive power than discipline. Under Standard scoring, mean performance across the six metadata strata sits in a narrow <strong>81.7–87.2%</strong> band. Subjective and objective questions differ by only 0.6 percentage points. Complete Answer scoring widens these gaps by question type modestly but leaves them small relative to the spread across disciplines in <FigureLink id="fig-scores">Figure 2</FigureLink>.
+              Question type strata provide much less predictive power on difficulty than discipline. Under Standard scoring, mean performance across the six metadata strata sits in a narrow <strong>81.7–87.2%</strong> band. Subjective and objective questions differ by only 0.6 percentage points. Complete Answer scoring widens these gaps by question type modestly but leaves them small relative to the spread across disciplines in <FigureLink id="fig-scores">Figure 2</FigureLink>.
             </p>
             <FigureBlock figureIdx={4} onOpen={openFigure} />
             <p>
