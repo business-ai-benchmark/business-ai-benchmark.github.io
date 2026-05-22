@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PowerGlitch } from 'powerglitch';
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
-import { ChevronLeft, ChevronRight, X, ArrowUp, List, Sparkles, Mail, ZoomIn, ZoomOut, Newspaper } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ArrowUp, List, Sparkles, Mail, ZoomIn, ZoomOut, Newspaper, Copy, Check } from 'lucide-react';
 import { BlockMath, InlineMath } from 'react-katex';
 
 // --- DATA ---
 const paperMetadata = {
-  title: "Benchmarking AI on Knowledge Work with Realistic Business Cases",
-  subtitle: "and the Implications for Business Education and White-Collar Labor",
+  /** Canonical working-paper title — drives BibTeX, APA, and MLA citations. */
+  title: "Frontier AI performance across the business disciplines: a case-grounded benchmark of knowledge work and analytical reasoning",
+  /** Shorter headline on the landing-page hero (not used in formal citations). */
+  heroTitle: "Benchmarking AI on Knowledge Work with Realistic Business Cases",
+  heroSubtitle: "and the Implications for Business Education and White-Collar Labor",
   authors: [
     { firstName: "Ajay", lastName: "Patel", affiliationIds: [1], isCorresponding: true, website: "https://ajayp.app" },
     { firstName: "Kartik", lastName: "Hosanagar", affiliationIds: [1], website: "https://www.hosanagar.com/" },
@@ -27,7 +30,71 @@ const paperMetadata = {
   correspondence: "me@ajayp.app",
   date: "June 2026",
   year: 2026,
+  bibtexKey: "patel2026frontier",
+  workingPaperLabel: "Working paper",
   fullPaperUrl: "https://drive.google.com/file/d/1wgsGfbjG06yOL038ih4dpAq0PKOjgYkZ/view"
+};
+
+type CitationFormat = "bibtex" | "mla" | "apa";
+
+const CITATION_TABS: { id: CitationFormat; label: string }[] = [
+  { id: "bibtex", label: "BibTeX" },
+  { id: "mla", label: "MLA" },
+  { id: "apa", label: "APA" },
+];
+
+const formatApaAuthors = (authors: typeof paperMetadata.authors) => {
+  const formatted = authors.map((author) => `${author.lastName}, ${author.firstName.charAt(0)}.`);
+  if (formatted.length === 1) return formatted[0];
+  return `${formatted.slice(0, -1).join(", ")}, & ${formatted[formatted.length - 1]}`;
+};
+
+const formatMlaAuthors = (authors: typeof paperMetadata.authors) => {
+  if (authors.length === 1) {
+    return `${authors[0].lastName}, ${authors[0].firstName}.`;
+  }
+  const lead = authors[0];
+  return `${lead.lastName}, ${lead.firstName}, et al.`;
+};
+
+const toApaTitleCase = (title: string) => {
+  const colonIndex = title.indexOf(": ");
+  if (colonIndex === -1) return title;
+  const subtitleStart = colonIndex + 2;
+  return (
+    title.slice(0, subtitleStart) +
+    title.charAt(subtitleStart).toUpperCase() +
+    title.slice(subtitleStart + 1)
+  );
+};
+
+const buildBibtexCitation = () => {
+  const authors = paperMetadata.authors
+    .map((author) => `${author.lastName}, ${author.firstName}`)
+    .join(" and ");
+  return `@misc{${paperMetadata.bibtexKey},
+  title={${paperMetadata.title}},
+  author={${authors}},
+  year={${paperMetadata.year}},
+  note={${paperMetadata.workingPaperLabel}},
+}`;
+};
+
+const buildApaCitation = () =>
+  `${formatApaAuthors(paperMetadata.authors)} (${paperMetadata.year}). ${toApaTitleCase(paperMetadata.title)} [${paperMetadata.workingPaperLabel}].`;
+
+const buildMlaCitation = () =>
+  `${formatMlaAuthors(paperMetadata.authors)} "${paperMetadata.title}." ${paperMetadata.workingPaperLabel}, ${paperMetadata.year}.`;
+
+const buildCitation = (format: CitationFormat) => {
+  switch (format) {
+    case "bibtex":
+      return buildBibtexCitation();
+    case "apa":
+      return buildApaCitation();
+    case "mla":
+      return buildMlaCitation();
+  }
 };
 
 const formatAuthorsForCitation = (authors: typeof paperMetadata.authors) => {
@@ -149,7 +216,8 @@ const tocItems = [
     { id: "scoring-math", title: "Scoring Formulas" },
     { id: "composition", title: "Benchmark Composition" },
     { id: "progress-by-discipline", title: "Progress By Discipline" }
-  ]}
+  ]},
+  { id: "citation", title: "Citation" }
 ];
 
 // --- COMPONENTS ---
@@ -365,6 +433,81 @@ const CiteT = ({ id, authors, year }: { id: string; authors: string; year: strin
     {authors} ({year})
   </a>
 );
+
+const CitationBlock = () => {
+  const [activeTab, setActiveTab] = useState<CitationFormat>("bibtex");
+  const [copied, setCopied] = useState(false);
+  const activeCitation = buildCitation(activeTab);
+  const activeLabel = CITATION_TABS.find((tab) => tab.id === activeTab)?.label ?? "Citation";
+
+  useEffect(() => {
+    setCopied(false);
+  }, [activeTab]);
+
+  const copyCitation = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(activeCitation);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }, [activeCitation]);
+
+  return (
+    <div className="rounded-lg border border-slate-200 bg-slate-50 overflow-hidden">
+      <div className="flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-3 sm:px-4">
+        <div role="tablist" aria-label="Citation format" className="flex gap-1 -mb-px">
+          {CITATION_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-3 py-3 text-sm font-medium transition-colors border-b-2 ${
+                activeTab === tab.id
+                  ? "border-wharton text-wharton"
+                  : "border-transparent text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={copyCitation}
+          className="flex shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:border-slate-300 hover:text-wharton transition-colors"
+          aria-label={`Copy ${activeLabel} citation to clipboard`}
+        >
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5" />
+              Copied
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              Copy
+            </>
+          )}
+        </button>
+      </div>
+      <div role="tabpanel" className="p-5">
+        {activeTab === "bibtex" ? (
+          <pre className="m-0 text-sm leading-relaxed text-slate-700 font-mono overflow-x-auto hide-scrollbar whitespace-pre-wrap break-words">
+            {activeCitation}
+          </pre>
+        ) : (
+          <p className="m-0 text-sm md:text-base leading-relaxed text-slate-700 font-serif">
+            {activeCitation}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ViewFullPaperButton = ({
   className,
@@ -673,10 +816,10 @@ export default function App() {
             <GlitchRobot className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48" />
             <div className="min-w-0 flex-1">
               <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-display font-medium leading-tight mb-2 sm:mb-3">
-                {renderPaperTitle(paperMetadata.title)}
+                {renderPaperTitle(paperMetadata.heroTitle)}
               </h1>
               <h2 className="text-lg sm:text-xl md:text-3xl font-display font-normal text-white/80 leading-snug italic">
-                {paperMetadata.subtitle}
+                {paperMetadata.heroSubtitle}
               </h2>
             </div>
           </div>
@@ -1027,6 +1170,16 @@ export default function App() {
               The figure tracks the four OpenAI models on the twelve disciplines with at least fifteen questions, under both scoring regimes, to show how generational gains vary by discipline. Large moves appear in Economics, Accounting &amp; Control, and Finance where GPT-4 Turbo began far below today’s levels, complementing the aggregate trajectory in <FigureLink id="fig-trajectory">Figure 3</FigureLink>.
             </p>
             <FigureBlock figureIdx={7} wide onOpen={openFigure} />
+          </section>
+
+          <hr className="my-16 border-slate-200" />
+
+          <section id="citation" className="scroll-mt-12 mb-24 space-y-6">
+            <h2 className="text-3xl font-display font-semibold text-slate-900 mb-6">Citation</h2>
+            <p>
+              If you reference this work, please cite our working paper:
+            </p>
+            <CitationBlock />
           </section>
         </main>
       </div>
