@@ -638,7 +638,7 @@ export default function App() {
         ))}
       </nav>
 
-      <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-slate-100">
+      <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-slate-100 space-y-4">
         <button
           onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMobileTocOpen(false); }}
           className="flex items-center gap-2 text-sm text-slate-400 hover:text-wharton transition-colors"
@@ -646,7 +646,19 @@ export default function App() {
           <ArrowUp className="w-4 h-4" />
           Back to top
         </button>
-        <ViewFullPaperButton className="text-sm text-slate-400 hover:text-wharton mt-4" />
+        <div className="text-sm font-serif">
+          <p className="flex items-center gap-2 text-slate-400 mb-1">
+            <Mail className="w-4 h-4 shrink-0" />
+            Correspondence To:
+          </p>
+          <a
+            href={`mailto:${paperMetadata.correspondence}`}
+            className="text-slate-500 hover:text-wharton hover:underline transition-colors break-all"
+          >
+            {paperMetadata.correspondence}
+          </a>
+        </div>
+        <ViewFullPaperButton className="text-sm text-slate-400 hover:text-wharton" />
       </div>
     </>
   );
