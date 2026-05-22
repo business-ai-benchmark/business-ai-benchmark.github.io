@@ -67,13 +67,37 @@ h1, h2, h3, h4, h5, h6 {
 .header-gradient-bg {
   background-color: #011F5B;
   background-image:
-    radial-gradient(ellipse 95% 75% at 15% 35%, rgba(30, 120, 210, 0.55) 0%, transparent 52%),
-    radial-gradient(ellipse 80% 60% at 88% 18%, rgba(20, 90, 180, 0.5) 0%, transparent 48%),
-    radial-gradient(ellipse 70% 70% at 72% 88%, rgba(0, 60, 140, 0.45) 0%, transparent 52%),
-    radial-gradient(ellipse 65% 55% at 42% 62%, rgba(120, 0, 20, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 78% 58% at 15% 35%, rgba(30, 120, 210, 0.55) 0%, transparent 52%),
+    radial-gradient(ellipse 68% 50% at 88% 18%, rgba(20, 90, 180, 0.5) 0%, transparent 48%),
+    radial-gradient(ellipse 58% 58% at 72% 88%, rgba(0, 60, 140, 0.45) 0%, transparent 52%),
+    radial-gradient(ellipse 54% 46% at 42% 62%, rgba(120, 0, 20, 0.35) 0%, transparent 50%),
     linear-gradient(155deg, #011F5B 0%, #013878 42%, #011a4d 100%);
-  background-size: 320% 320%, 280% 280%, 300% 300%, 260% 260%, 100% 100%;
+  background-size: 195% 195%, 170% 170%, 185% 185%, 160% 160%, 100% 100%;
   animation: header-gradient-flow 12s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  .header-gradient-bg {
+    background-image:
+      radial-gradient(ellipse 86% 66% at 15% 35%, rgba(30, 120, 210, 0.55) 0%, transparent 52%),
+      radial-gradient(ellipse 74% 56% at 88% 18%, rgba(20, 90, 180, 0.5) 0%, transparent 48%),
+      radial-gradient(ellipse 64% 64% at 72% 88%, rgba(0, 60, 140, 0.45) 0%, transparent 52%),
+      radial-gradient(ellipse 60% 50% at 42% 62%, rgba(120, 0, 20, 0.35) 0%, transparent 50%),
+      linear-gradient(155deg, #011F5B 0%, #013878 42%, #011a4d 100%);
+    background-size: 240% 240%, 210% 210%, 225% 225%, 200% 200%, 100% 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-gradient-bg {
+    background-image:
+      radial-gradient(ellipse 95% 75% at 15% 35%, rgba(30, 120, 210, 0.55) 0%, transparent 52%),
+      radial-gradient(ellipse 80% 60% at 88% 18%, rgba(20, 90, 180, 0.5) 0%, transparent 48%),
+      radial-gradient(ellipse 70% 70% at 72% 88%, rgba(0, 60, 140, 0.45) 0%, transparent 52%),
+      radial-gradient(ellipse 65% 55% at 42% 62%, rgba(120, 0, 20, 0.35) 0%, transparent 50%),
+      linear-gradient(155deg, #011F5B 0%, #013878 42%, #011a4d 100%);
+    background-size: 320% 320%, 280% 280%, 300% 300%, 260% 260%, 100% 100%;
+  }
 }
 
 @keyframes header-gradient-flow {
@@ -96,14 +120,14 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   z-index: 0;
   border-radius: 9999px;
-  filter: blur(64px);
+  filter: blur(clamp(28px, 8vw, 64px));
 }
 
 .header-spotlight-tr {
   top: 0;
   right: 0;
-  width: 800px;
-  height: 800px;
+  width: clamp(280px, 72vw, 800px);
+  height: clamp(280px, 72vw, 800px);
   background: rgba(255, 255, 255, 0.12);
   animation: header-spotlight-tr 10s ease-in-out infinite;
 }
@@ -111,8 +135,8 @@ h1, h2, h3, h4, h5, h6 {
 .header-spotlight-bl {
   bottom: 0;
   left: 0;
-  width: 650px;
-  height: 650px;
+  width: clamp(240px, 58vw, 650px);
+  height: clamp(240px, 58vw, 650px);
   background: rgba(96, 165, 250, 0.14);
   animation: header-spotlight-bl 14s ease-in-out infinite;
 }
@@ -142,8 +166,8 @@ h1, h2, h3, h4, h5, h6 {
 .header-spotlight-crimson-ml {
   top: 15%;
   left: 0;
-  width: 720px;
-  height: 720px;
+  width: clamp(260px, 65vw, 720px);
+  height: clamp(260px, 65vw, 720px);
   background: rgba(153, 0, 0, 0.2);
   animation: header-spotlight-crimson-ml 11s ease-in-out infinite;
 }
@@ -151,8 +175,8 @@ h1, h2, h3, h4, h5, h6 {
 .header-spotlight-crimson-br {
   bottom: 5%;
   right: 10%;
-  width: 600px;
-  height: 600px;
+  width: clamp(220px, 54vw, 600px);
+  height: clamp(220px, 54vw, 600px);
   background: rgba(100, 0, 15, 0.22);
   animation: header-spotlight-crimson-br 13s ease-in-out infinite 1.5s;
 }
@@ -179,16 +203,75 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@media (max-width: 767px) {
+  @keyframes header-spotlight-tr {
+    0%, 100% {
+      transform: translate(33%, -50%) scale(0.92);
+      opacity: 0.75;
+    }
+    50% {
+      transform: translate(5%, -30%) scale(1.04);
+      opacity: 1;
+    }
+  }
+
+  @keyframes header-spotlight-bl {
+    0%, 100% {
+      transform: translate(-25%, 33%) scale(0.92);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translate(15%, 10%) scale(1.03);
+      opacity: 1;
+    }
+  }
+
+  @keyframes header-spotlight-crimson-ml {
+    0%, 100% {
+      transform: translate(-20%, -15%) scale(0.92);
+      opacity: 0.65;
+    }
+    50% {
+      transform: translate(10%, 5%) scale(1.04);
+      opacity: 0.95;
+    }
+  }
+
+  @keyframes header-spotlight-crimson-br {
+    0%, 100% {
+      transform: translate(20%, 25%) scale(0.94);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate(-10%, 0%) scale(1.05);
+      opacity: 0.9;
+    }
+  }
+}
+
 .header-noise-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.17;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.32' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
-  background-size: 400px 400px;
+  background-size: clamp(180px, 48vw, 400px) clamp(180px, 48vw, 400px);
+}
+
+@media (min-width: 640px) {
+  .header-noise-overlay {
+    opacity: 0.19;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-noise-overlay {
+    opacity: 0.22;
+    background-size: 400px 400px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
