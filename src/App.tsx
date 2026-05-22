@@ -37,6 +37,15 @@ const formatAuthorsForCitation = (authors: typeof paperMetadata.authors) => {
   return `${lastNames.slice(0, -1).join(', ')}, & ${lastNames[lastNames.length - 1]}`;
 };
 
+const renderPaperTitle = (title: string) =>
+  title.split(/(Knowledge Work|Business Cases)/).map((part, i) =>
+    part === "Knowledge Work" || part === "Business Cases" ? (
+      <span key={i} className="whitespace-nowrap">{part}</span>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    )
+  );
+
 const figures = [
   {
     id: "fig-pipeline",
@@ -645,7 +654,7 @@ export default function App() {
             <GlitchRobot className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48" />
             <div className="min-w-0 flex-1">
               <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-display font-medium leading-tight mb-2 sm:mb-3">
-                {paperMetadata.title}
+                {renderPaperTitle(paperMetadata.title)}
               </h1>
               <h2 className="text-lg sm:text-xl md:text-3xl font-display font-normal text-white/80 leading-snug italic">
                 {paperMetadata.subtitle}
