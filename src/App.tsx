@@ -900,7 +900,7 @@ export default function App() {
               For business schools, case pedagogy trains the judgment, synthesis, and defensible reasoning that MBA programs and undergraduate curricula were designed to build <RefLink id="ref3">3</RefLink>. When producing a strong draft answer is inexpensive and fast, programs must emphasize verification, thoroughness, and knowing what a fully complete answer requires, particularly in disciplines where Standard scores are already high but Complete Answer satisfaction remains elusive.
             </p>
             <p>
-              For labor markets, occupational mappings in <FigureLink id="fig-onet">Figure 7</FigureLink> highlight where entry-level analytical work faces the most implied exposure and where human advantage may persist in integration across stakeholders, accountability, and context that single-turn benchmarks abstract away. Field evidence on uneven productivity gains across knowledge workers underscores that the frontier is jagged in practice, not smooth <RefLink id="ref7">7</RefLink>.
+              For labor markets, occupational mappings in <FigureLink id="fig-onet">Figure 7</FigureLink> highlight where knowledge workers face the most implied exposure and where human advantage may persist in integration across stakeholders, accountability, and context that single-turn benchmarks abstract away. Field evidence on uneven productivity gains across knowledge workers underscores that the frontier is jagged in practice, not smooth <RefLink id="ref7">7</RefLink>.
             </p>
             <FigureBlock figureIdx={6} wide onOpen={openFigure} />
             <p className="text-base text-slate-600">
