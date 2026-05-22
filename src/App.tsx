@@ -734,7 +734,7 @@ export default function App() {
 
           <section id="exec-summary" className="scroll-mt-12 mb-16">
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-8 shadow-sm">
-              <h2 className="text-2xl font-display font-semibold text-slate-900 mb-4">Highlights</h2>
+              <h2 className="text-2xl font-display font-semibold text-slate-900 mb-4">Research Highlights</h2>
               <div className="text-sm md:text-base leading-relaxed text-slate-700 font-serif">
                 <ul className="list-none pl-0 m-0 p-0 flex flex-col gap-3">
                   <li className="flex items-start gap-4">
@@ -762,6 +762,9 @@ export default function App() {
                     <span>We discuss implications for <HighlightLink href="#implications">business schools</HighlightLink> that train undergraduates and MBAs where such skills have historically anchored early-career work. To this end, we measure <HighlightLink href="#onet-mapping">implied AI impact</HighlightLink> on occupations and work activities.</span>
                   </li>
                 </ul>
+              </div>
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <ViewFullPaperButton className="inline-flex text-sm text-slate-600 hover:text-wharton font-medium" />
               </div>
             </div>
           </section>
