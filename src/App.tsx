@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { PowerGlitch } from 'powerglitch';
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
 import { ChevronLeft, ChevronRight, X, ArrowUp, Eye, List, Sparkles, Mail, Minus, Plus } from 'lucide-react';
@@ -142,6 +143,57 @@ const tocItems = [
 ];
 
 // --- COMPONENTS ---
+
+const ROBOT_GLITCH_INTERVAL_MS = 5000;
+
+const GlitchRobot = ({ className }: { className?: string }) => {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const glitchRef = useRef<ReturnType<typeof PowerGlitch.glitch> | null>(null);
+
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const glitch = PowerGlitch.glitch(el, {
+      playMode: 'manual',
+      timing: { duration: 500, iterations: 1 },
+      glitchTimeSpan: { start: 0, end: 1 },
+      shake: { velocity: 15, amplitudeX: 0.15, amplitudeY: 0.15 },
+      slice: { count: 6, velocity: 15, minHeight: 0.02, maxHeight: 0.15, hueRotate: true, cssFilters: '' },
+    });
+
+    glitchRef.current = glitch;
+    glitch.startGlitch();
+    const intervalId = window.setInterval(() => glitch.startGlitch(), ROBOT_GLITCH_INTERVAL_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+      glitch.stopGlitch();
+      glitchRef.current = null;
+    };
+  }, []);
+
+  const triggerGlitch = () => glitchRef.current?.startGlitch();
+
+  return (
+    <div
+      className="shrink-0 cursor-pointer"
+      onMouseEnter={triggerGlitch}
+      onFocus={triggerGlitch}
+      tabIndex={0}
+      role="img"
+      aria-label="White collar robot"
+    >
+      <img
+        ref={imgRef}
+        src="/white_collar_robot.png"
+        alt=""
+        aria-hidden="true"
+        className={className}
+      />
+    </div>
+  );
+};
 
 const FigureLink = ({ id, children }: { id: string, children: React.ReactNode }) => {
   return (
@@ -509,16 +561,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-slate-800 antialiased selection:bg-wharton selection:text-white">
 
-      <header className="bg-wharton text-white px-6 py-20 lg:py-24 relative overflow-hidden selection:bg-white/30 selection:text-white">
+      <header className="header-gradient-bg text-white px-6 py-20 lg:py-24 relative overflow-hidden isolation-isolate selection:bg-white/30 selection:text-white">
+        <div className="header-noise-overlay" aria-hidden="true" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="mb-10 flex flex-row items-start gap-4 sm:gap-6 md:items-center md:gap-10">
-            <div className="shrink-0">
-              <img
-                src="/white_collar_robot.png"
-                alt="White collar robot"
-                className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 object-contain"
-              />
-            </div>
+            <GlitchRobot className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 object-contain" />
             <div className="min-w-0 flex-1">
               <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-display font-medium leading-tight mb-2 sm:mb-3">
                 {paperMetadata.title}
@@ -585,7 +632,8 @@ export default function App() {
           </div>
         </div>
 
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+        <div className="header-spotlight header-spotlight-tr" aria-hidden="true" />
+        <div className="header-spotlight header-spotlight-bl" aria-hidden="true" />
       </header>
 
       <div className="max-w-[1400px] mx-auto px-6 py-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-20">

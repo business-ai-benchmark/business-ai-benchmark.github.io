@@ -18,6 +18,7 @@
     "katex": "^0.16.10",
     "lucide-react": "^0.460.0",
     "motion": "^12.23.24",
+    "powerglitch": "^2.5.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "react-katex": "^3.0.1",
