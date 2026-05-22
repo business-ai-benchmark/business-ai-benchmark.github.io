@@ -366,7 +366,13 @@ const CiteT = ({ id, authors, year }: { id: string; authors: string; year: strin
   </a>
 );
 
-const ViewFullPaperButton = ({ className }: { className: string }) => (
+const ViewFullPaperButton = ({
+  className,
+  variant = "long",
+}: {
+  className: string;
+  variant?: "short" | "long";
+}) => (
   <a
     href={paperMetadata.fullPaperUrl}
     target="_blank"
@@ -374,7 +380,7 @@ const ViewFullPaperButton = ({ className }: { className: string }) => (
     className={`flex items-center gap-2 transition-colors ${className}`}
   >
     <Newspaper className="w-4 h-4 shrink-0" />
-    Read the full paper →
+    {variant === "short" ? "Full paper →" : "Read the full paper on arXiv →"}
   </a>
 );
 
@@ -714,7 +720,7 @@ export default function App() {
               </p>
               <a href={`mailto:${paperMetadata.correspondence}`} className="text-white hover:text-blue-200 hover:underline transition-colors">{paperMetadata.correspondence}</a>
               <p className="mt-2 text-sm opacity-70 whitespace-nowrap italic">Working Paper — {paperMetadata.date}</p>
-              <ViewFullPaperButton className="text-sm text-white/80 hover:text-white mt-3" />
+              <ViewFullPaperButton variant="short" className="text-sm text-white/80 hover:text-white mt-3" />
             </div>
           </div>
         </div>
