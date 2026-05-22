@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PowerGlitch } from 'powerglitch';
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
@@ -144,53 +144,130 @@ const tocItems = [
 
 // --- COMPONENTS ---
 
-const ROBOT_GLITCH_INTERVAL_MS = 5000;
+const ROBOT_GLITCH_INTERVAL_MS = 3000;
+const ROBOT_SHAKE_AMPLITUDE_MIN = 0.05;
+const ROBOT_SHAKE_AMPLITUDE_MAX = 0.15;
+
+const randomRobotShakeAmplitude = () =>
+  ROBOT_SHAKE_AMPLITUDE_MIN + Math.random() * (ROBOT_SHAKE_AMPLITUDE_MAX - ROBOT_SHAKE_AMPLITUDE_MIN);
+const ROBOT_IMG_ASPECT = 481 / 676;
+/** Normalized (x, y, w, h) eye region within the robot image */
+const ROBOT_EYE_REGION = { x: 0.324516, y: 0.242964, w: 0.397917, h: 0.127407 };
+/** Set false to hide the eye-region debug overlay */
+const ROBOT_EYE_DEBUG_BOX = false;
+/** Fraction of eye-box width/height used for edge feather (each side) */
+const ROBOT_EYE_FEATHER = 0.15;
+
+const robotEyeFeatherMask = (() => {
+  const edge = `${ROBOT_EYE_FEATHER * 100}%`;
+  const inner = `${(1 - ROBOT_EYE_FEATHER) * 100}%`;
+  return [
+    `linear-gradient(to right, transparent 0%, #000 ${edge}, #000 ${inner}, transparent 100%)`,
+    `linear-gradient(to bottom, transparent 0%, #000 ${edge}, #000 ${inner}, transparent 100%)`,
+  ].join(', ');
+})();
 
 const GlitchRobot = ({ className }: { className?: string }) => {
-  const imgRef = useRef<HTMLImageElement>(null);
+  const eyeImgRef = useRef<HTMLImageElement>(null);
   const glitchRef = useRef<ReturnType<typeof PowerGlitch.glitch> | null>(null);
 
-  useEffect(() => {
-    const el = imgRef.current;
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const runGlitch = useCallback(() => {
+    const el = eyeImgRef.current;
+    if (!el) return;
 
+    glitchRef.current?.stopGlitch();
     const glitch = PowerGlitch.glitch(el, {
       playMode: 'manual',
       timing: { duration: 500, iterations: 1 },
       glitchTimeSpan: { start: 0, end: 1 },
-      shake: { velocity: 15, amplitudeX: 0.15, amplitudeY: 0.15 },
-      slice: { count: 6, velocity: 15, minHeight: 0.02, maxHeight: 0.15, hueRotate: true, cssFilters: '' },
+      hideOverflow: true,
+      shake: {
+        velocity: 15,
+        amplitudeX: randomRobotShakeAmplitude(),
+        amplitudeY: randomRobotShakeAmplitude(),
+      },
+      slice: { count: 6, velocity: 15, minHeight: 0.02, maxHeight: 0.02, hueRotate: true, cssFilters: '' },
     });
 
     glitchRef.current = glitch;
     glitch.startGlitch();
-    const intervalId = window.setInterval(() => glitch.startGlitch(), ROBOT_GLITCH_INTERVAL_MS);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    runGlitch();
+    const intervalId = window.setInterval(runGlitch, ROBOT_GLITCH_INTERVAL_MS);
 
     return () => {
       window.clearInterval(intervalId);
-      glitch.stopGlitch();
+      glitchRef.current?.stopGlitch();
       glitchRef.current = null;
     };
-  }, []);
-
-  const triggerGlitch = () => glitchRef.current?.startGlitch();
+  }, [runGlitch]);
+  const { x, y, w, h } = ROBOT_EYE_REGION;
 
   return (
     <div
-      className="shrink-0 cursor-pointer"
-      onMouseEnter={triggerGlitch}
-      onFocus={triggerGlitch}
+      className={`relative shrink-0 cursor-pointer ${className ?? ''}`}
+      onMouseEnter={runGlitch}
+      onFocus={runGlitch}
       tabIndex={0}
       role="img"
       aria-label="White collar robot"
     >
-      <img
-        ref={imgRef}
-        src="/white_collar_robot.png"
-        alt=""
-        aria-hidden="true"
-        className={className}
-      />
+      <div
+        className="relative mx-auto h-full w-auto max-w-full"
+        style={{ aspectRatio: ROBOT_IMG_ASPECT }}
+      >
+        <img
+          src="/white_collar_robot.png"
+          alt=""
+          aria-hidden="true"
+          className="block h-full w-full"
+          draggable={false}
+        />
+        <div
+          className="absolute overflow-hidden pointer-events-none"
+          style={{
+            left: `${x * 100}%`,
+            top: `${y * 100}%`,
+            width: `${w * 100}%`,
+            height: `${h * 100}%`,
+            WebkitMaskImage: robotEyeFeatherMask,
+            WebkitMaskComposite: 'source-in',
+            maskImage: robotEyeFeatherMask,
+            maskComposite: 'intersect',
+          }}
+          aria-hidden="true"
+        >
+          <img
+            ref={eyeImgRef}
+            src="/white_collar_robot.png"
+            alt=""
+            className="absolute max-w-none"
+            draggable={false}
+            style={{
+              width: `${(1 / w) * 100}%`,
+              height: `${(1 / h) * 100}%`,
+              left: `${(-x / w) * 100}%`,
+              top: `${(-y / h) * 100}%`,
+            }}
+          />
+        </div>
+        {ROBOT_EYE_DEBUG_BOX && (
+          <div
+            className="absolute z-[9999] pointer-events-none border-2 border-red-500 bg-red-500/40"
+            style={{
+              left: `${x * 100}%`,
+              top: `${y * 100}%`,
+              width: `${w * 100}%`,
+              height: `${h * 100}%`,
+            }}
+            aria-hidden="true"
+          />
+        )}
+      </div>
     </div>
   );
 };
@@ -565,7 +642,7 @@ export default function App() {
         <div className="header-noise-overlay" aria-hidden="true" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="mb-10 flex flex-row items-start gap-4 sm:gap-6 md:items-center md:gap-10">
-            <GlitchRobot className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 object-contain" />
+            <GlitchRobot className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48" />
             <div className="min-w-0 flex-1">
               <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-display font-medium leading-tight mb-2 sm:mb-3">
                 {paperMetadata.title}
