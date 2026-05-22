@@ -148,7 +148,7 @@ const tocItems = [
     { id: "scoring", title: "How We Scored Responses" },
     { id: "scoring-math", title: "Scoring Formulas" },
     { id: "composition", title: "Benchmark Composition" },
-    { id: "openai-trajectory-discipline", title: "OpenAI Trajectory by Discipline" }
+    { id: "progress-by-discipline", title: "Progress By Discipline" }
   ]}
 ];
 
@@ -727,7 +727,7 @@ export default function App() {
 
       <div className="max-w-[1400px] mx-auto px-6 py-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
 
-        <aside className="hidden lg:block w-72 sticky top-12 shrink-0 border-l border-slate-200 pl-8 pb-12">
+        <aside className="hidden lg:block w-72 sticky top-12 shrink-0 border-l border-slate-200 pl-8 pb-12 max-h-[calc(100vh-3rem)] overflow-y-auto">
           {tocContent}
         </aside>
 
@@ -1004,7 +1004,7 @@ export default function App() {
               totalRow={disciplineCompositionTotal}
             />
 
-            <h3 id="openai-trajectory-discipline" className="text-2xl font-display font-medium text-slate-800 mt-10 scroll-mt-12">OpenAI Trajectory by Discipline</h3>
+            <h3 id="progress-by-discipline" className="text-2xl font-display font-medium text-slate-800 mt-10 scroll-mt-12">Progress By Discipline</h3>
             <p>
               The figure tracks the four OpenAI models on the twelve disciplines with at least fifteen questions, under both scoring regimes, to show how generational gains vary by discipline. Large moves appear in Economics, Accounting &amp; Control, and Finance where GPT-4 Turbo began far below today’s levels, complementing the aggregate trajectory in <FigureLink id="fig-trajectory">Figure 3</FigureLink>.
             </p>
