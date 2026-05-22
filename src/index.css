@@ -76,6 +76,33 @@ h1, h2, h3, h4, h5, h6 {
   animation: header-gradient-flow 12s ease-in-out infinite;
 }
 
+.header-affil-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-affil-logo-card {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 420px) {
+  .header-affil-logo-card:hover {
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 419px) {
+  .header-affil-logos {
+    flex-wrap: nowrap;
+    gap: 0.625rem;
+    transform: scale(0.82);
+    transform-origin: left center;
+  }
+}
+
 @media (min-width: 640px) {
   .header-gradient-bg {
     background-image:

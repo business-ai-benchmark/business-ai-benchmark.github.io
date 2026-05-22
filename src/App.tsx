@@ -714,11 +714,11 @@ export default function App() {
                 ))}
               </p>
 
-              <div className="flex flex-wrap items-center gap-6 mt-6 opacity-90">
+              <div className="header-affil-logos mt-6 opacity-90">
                 {paperMetadata.affiliations.filter((affil, idx, arr) =>
                   affil.logo && arr.findIndex(a => a.logo === affil.logo) === idx
                 ).map(affil => (
-                  <div key={affil.id} className="h-11 px-3 bg-white rounded shadow-sm flex items-center justify-center transition-transform hover:scale-105" title={affil.name}>
+                  <div key={affil.id} className="header-affil-logo-card h-11 px-3 bg-white rounded shadow-sm flex items-center justify-center" title={affil.name}>
                     <img src={affil.logo} alt={affil.name} className={`${affil.logoClass || 'h-7'} w-auto object-contain`} />
                   </div>
                 ))}
