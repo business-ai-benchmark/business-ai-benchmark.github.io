@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PowerGlitch } from 'powerglitch';
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
-import { ChevronLeft, ChevronRight, X, ArrowUp, Eye, List, Sparkles, Mail, Minus, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ArrowUp, List, Sparkles, Mail, Minus, Plus, Newspaper } from 'lucide-react';
 import { BlockMath, InlineMath } from 'react-katex';
 
 // --- DATA ---
@@ -372,7 +372,7 @@ const ViewFullPaperButton = ({ className }: { className: string }) => (
     rel="noopener noreferrer"
     className={`flex items-center gap-2 transition-colors ${className}`}
   >
-    <Eye className="w-4 h-4 shrink-0" />
+    <Newspaper className="w-4 h-4 shrink-0" />
     View Full Paper →
   </a>
 );
