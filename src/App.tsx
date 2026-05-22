@@ -1108,7 +1108,7 @@ export default function App() {
             <ul className="list-disc pl-6 space-y-2 font-serif">
               <li>OCR and clean case and solution PDFs into structured text, then label fictional vs. real firms and question metadata.</li>
               <li>Generate equally-weighted checklist rubrics from exam-style question prompts and reference solutions in the instructor case solution.</li>
-              <li>Prompt frontier solver AI models with the full case narrative and exam-style question prompt in one turn, with no tools or retrieval.</li>
+              <li>Prompt frontier AI solver models with the full case narrative and exam-style question prompt in one turn, with no tools or retrieval.</li>
               <li>Grade with a fixed LLM-as-judge (Gemini 2.5 Flash) held constant across all solver models <RefLink id="ref5">5</RefLink>.</li>
               <li>
                 Validate automated rubrics and grades with blinded human annotators experienced in business school grading.{" "}
