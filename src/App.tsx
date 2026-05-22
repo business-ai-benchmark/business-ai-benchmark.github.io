@@ -373,7 +373,7 @@ const ViewFullPaperButton = ({ className }: { className: string }) => (
     className={`flex items-center gap-2 transition-colors ${className}`}
   >
     <Newspaper className="w-4 h-4 shrink-0" />
-    View Full Paper →
+    Read the full paper →
   </a>
 );
 
