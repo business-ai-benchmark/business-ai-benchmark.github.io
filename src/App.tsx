@@ -25,7 +25,8 @@ const paperMetadata = {
   ],
   correspondence: "me@ajayp.app",
   date: "June 2026",
-  year: 2026
+  year: 2026,
+  fullPaperUrl: "https://drive.google.com/file/d/1wgsGfbjG06yOL038ih4dpAq0PKOjgYkZ/view"
 };
 
 const formatAuthorsForCitation = (authors: typeof paperMetadata.authors) => {
@@ -227,10 +228,15 @@ const CiteT = ({ id, authors, year }: { id: string; authors: string; year: strin
 );
 
 const ViewFullPaperButton = ({ className }: { className: string }) => (
-  <button type="button" className={`flex items-center gap-2 transition-colors ${className}`}>
+  <a
+    href={paperMetadata.fullPaperUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`flex items-center gap-2 transition-colors ${className}`}
+  >
     <Eye className="w-4 h-4 shrink-0" />
     View Full Paper
-  </button>
+  </a>
 );
 
 type TableColumn<T> = {
