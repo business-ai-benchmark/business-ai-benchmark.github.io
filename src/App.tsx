@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PowerGlitch } from 'powerglitch';
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
-import { ChevronLeft, ChevronRight, X, ArrowUp, List, Sparkles, Mail, Minus, Plus, Newspaper } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ArrowUp, List, Sparkles, Mail, ZoomIn, ZoomOut, Newspaper } from 'lucide-react';
 import { BlockMath, InlineMath } from 'react-katex';
 
 // --- DATA ---
@@ -50,7 +50,8 @@ const figures = [
   {
     id: "fig-pipeline",
     src: "/figures/benchmark_pipeline_diagram.png",
-    caption: "Figure 1: Evaluation pipeline. Case narratives and open-ended questions are paired with reference solutions from instructor case solutions, converted into equally-weighted checklist rubrics, answered by frontier models, and scored criterion by criterion with an LLM-as-judge. Human annotators with business school grading experience validate automatic rubrics and grading on a stratified sample."
+    caption: "Figure 1: Evaluation pipeline. Case narratives and open-ended questions are paired with reference solutions from instructor case solutions, converted into equally-weighted checklist rubrics, answered by frontier models, and scored criterion by criterion with an LLM-as-judge. Human annotators with business school grading experience validate automatic rubrics and grading on a stratified sample.",
+    abbrevCaption: "Figure 1: Evaluation pipeline."
   },
   {
     id: "fig-scores",
@@ -1070,7 +1071,7 @@ export default function App() {
           <div className="absolute inset-x-0 bottom-0 z-[60] px-3 sm:px-4 md:px-6 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 pointer-events-none">
             <div className="flex flex-col md:flex-row justify-between items-stretch md:items-end gap-3 md:gap-4">
               <div className="w-full md:max-w-2xl text-white font-serif tracking-wide bg-black/60 p-3 sm:p-4 rounded-xl pointer-events-auto border border-white/10 text-xs sm:text-sm md:text-base order-2 md:order-1 overflow-y-auto max-h-[22vh] sm:max-h-[26vh] md:max-h-[30vh] overscroll-contain">
-                {figures[activeFigureIdx].caption}
+                {figures[activeFigureIdx].abbrevCaption ?? figures[activeFigureIdx].caption}
               </div>
 
               <div className="flex items-center justify-end gap-1.5 sm:gap-2 pointer-events-auto order-1 md:order-2 shrink-0 self-end">
@@ -1080,7 +1081,7 @@ export default function App() {
                   className={figureOverlayBtnClass}
                   aria-label="Zoom out"
                 >
-                  <Minus className="w-5 h-5 md:w-6 md:h-6" />
+                  <ZoomOut className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
                 <button
                   type="button"
@@ -1088,7 +1089,7 @@ export default function App() {
                   className={figureOverlayBtnClass}
                   aria-label="Zoom in"
                 >
-                  <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                  <ZoomIn className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
                 <button
                   type="button"
