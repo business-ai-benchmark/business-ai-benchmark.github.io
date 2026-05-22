@@ -711,6 +711,8 @@ export default function App() {
 
         <div className="header-spotlight header-spotlight-tr" aria-hidden="true" />
         <div className="header-spotlight header-spotlight-bl" aria-hidden="true" />
+        <div className="header-spotlight header-spotlight-crimson-ml" aria-hidden="true" />
+        <div className="header-spotlight header-spotlight-crimson-br" aria-hidden="true" />
       </header>
 
       <div className="max-w-[1400px] mx-auto px-6 py-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
