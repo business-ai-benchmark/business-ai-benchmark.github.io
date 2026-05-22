@@ -380,7 +380,7 @@ const ViewFullPaperButton = ({
     className={`flex items-center gap-2 transition-colors ${className}`}
   >
     <Newspaper className="w-4 h-4 shrink-0" />
-    {variant === "short" ? "Full paper →" : "Read the full paper on arXiv →"}
+    {variant === "short" ? "Read the full paper →" : "Read the full paper on arXiv →"}
   </a>
 );
 
