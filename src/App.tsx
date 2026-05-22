@@ -373,7 +373,7 @@ const ViewFullPaperButton = ({ className }: { className: string }) => (
     className={`flex items-center gap-2 transition-colors ${className}`}
   >
     <Eye className="w-4 h-4 shrink-0" />
-    View Full Paper
+    View Full Paper →
   </a>
 );
 
@@ -712,7 +712,7 @@ export default function App() {
                 Correspondence To:
               </p>
               <a href={`mailto:${paperMetadata.correspondence}`} className="text-white hover:text-blue-200 hover:underline transition-colors">{paperMetadata.correspondence}</a>
-              <p className="mt-2 text-sm opacity-70">Working Paper — {paperMetadata.date}</p>
+              <p className="mt-2 text-sm opacity-70 whitespace-nowrap italic">Working Paper — {paperMetadata.date}</p>
               <ViewFullPaperButton className="text-sm text-white/80 hover:text-white mt-3" />
             </div>
           </div>
