@@ -159,6 +159,19 @@ const HighlightLink = ({ href, children }: { href: string; children: React.React
   </a>
 );
 
+const ONET_WIKI_URL = "https://en.wikipedia.org/wiki/Occupational_Information_Network";
+
+const OnetLink = () => (
+  <a
+    href={ONET_WIKI_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-wharton hover:text-wharton-red underline decoration-1 underline-offset-2 transition-colors"
+  >
+    O*NET
+  </a>
+);
+
 const PullQuote = ({
   id,
   children,
@@ -636,14 +649,14 @@ export default function App() {
               Business school case studies occupy a similar role in professional education that NEJM medical case challenges occupy in clinical training <RefLink id="ref1">1</RefLink>. They are the central teaching instrument in MBA programs and undergraduate business education alike, as curated, expert-written decision narratives that force synthesis, judgment, and defensible analysis rather than memorization. Publisher licensing of these cases also limits pre-training exposure and contamination risk, making them a strong candidate for evaluation. Prior business benchmarks have been valuable but narrow, covering financial numerical reasoning, format-following tasks, or agents operating inside enterprise software rather than open-ended analytical work across the full business canon.
             </p>
             <p>
-              We extend the case-grounded evaluation pattern to business. Reference solutions derived from instructor case solutions become equally-weighted checklist rubrics, attempted solutions are scored criterion by criterion, and results map both to academic disciplines and to occupational work activities via O*NET <RefLink id="ref4">4</RefLink>.
+              We extend the case-grounded evaluation pattern to business, as illustrated in <FigureLink id="fig-pipeline">Figure 1</FigureLink>. Reference solutions derived from instructor case solutions become equally-weighted checklist rubrics, attempted solutions are scored criterion by criterion, and results can be read against both academic disciplines and occupational work activities via <OnetLink /> <RefLink id="ref4">4</RefLink>—the occupational taxonomy developed by the U.S. Department of Labor that classifies work activities and skills across thousands of occupations.
             </p>
           </section>
 
           <section id="benchmark" className="scroll-mt-12 mb-16 space-y-6">
             <h2 className="text-3xl font-display font-semibold text-slate-900 mb-6">The Benchmark</h2>
             <p>
-              The benchmark comprises <strong>617 open-ended questions</strong> from <strong>240 licensed business school cases</strong> paired with instructor case solutions, spanning <strong>18 disciplines</strong> from Strategy and Finance to Leadership and Operations. The benchmark spans subjective and open-ended analytical questions as well as objective, numerical reasoning questions. We classify each question as derived from a case about a fictional firm or a real firm, and as numerical or non-numerical and subjective or objective. The benchmark includes 246 questions on fictional firms and 371 on real firms, 186 numerical and 431 non-numerical questions, and 340 subjective and 277 objective questions. Each question is mapped to the O*NET occupational taxonomy at Work Activity, Intermediate Work Activity, and Detailed Work Activity levels so results can be read against professional work classifications as well as academic disciplines.
+              The benchmark comprises <strong>617 open-ended questions</strong> from <strong>240 licensed business school cases</strong> paired with instructor case solutions, spanning <strong>18 disciplines</strong> from Strategy and Finance to Leadership and Operations. The benchmark spans subjective and open-ended analytical questions as well as objective, numerical reasoning questions. We classify each question as derived from a case about a fictional firm or a real firm, and as numerical or non-numerical and subjective or objective. The benchmark includes 246 questions on fictional firms and 371 on real firms, 186 numerical and 431 non-numerical questions, and 340 subjective and 277 objective questions. Each question is mapped to the <OnetLink /> occupational taxonomy at Work Activity, Intermediate Work Activity, and Detailed Work Activity levels so results can be read against professional work classifications as well as academic disciplines.
             </p>
             <PullQuote
               citeId="ref3"
@@ -740,7 +753,7 @@ export default function App() {
               Genuine capability ceilings are rare. Only <strong>45 of 617 questions (7.3%)</strong> score at or below 70% for every frontier model we tested, and only <strong>6.2%</strong> of individual rubric criteria never receive credit from any model. A cross-model oracle that takes the best score per question reaches <strong>92.6%</strong>, 4.3 points above the best single model. What one model misses on a given question is therefore often captured by another, so remaining error reflects incomplete satisfaction of multi-part rubrics more often than absolute capability ceilings.
             </p>
             <p id="onet-mapping" className="scroll-mt-24">
-              Mapping benchmark questions to O*NET Intermediate Work Activities bridges academic disciplines to occupational work activities and occupations <RefLink id="ref4">4</RefLink>. Across 29 IWAs with at least three benchmark questions, mean Standard scores range from <strong>68.0%</strong> on “Advise others on financial matters” and <strong>70.9%</strong> on “Identify business or organizational opportunities” to near-ceiling performance on bounded explanatory and mathematical analysis activities. <FigureLink id="fig-iwa">Figure 4</FigureLink> shows that the hardest activities combine open-ended advisory framing with case-specific quantitative or evaluative reasoning. These mappings are indicative rather than definitive. O*NET work activities are broad and only loosely tied to what any single case question tests, so implied occupation-level results in <FigureLink id="fig-iwa">Figure 4</FigureLink> and <FigureLink id="fig-onet">Figure 7</FigureLink> should be read together with how thoroughly each job’s relevant activities appear in the benchmark.
+              Mapping benchmark questions to <OnetLink /> Intermediate Work Activities bridges academic disciplines to occupational work activities and occupations <RefLink id="ref4">4</RefLink>. Across 29 IWAs with at least three benchmark questions, mean Standard scores range from <strong>68.0%</strong> on “Advise others on financial matters” and <strong>70.9%</strong> on “Identify business or organizational opportunities” to near-ceiling performance on bounded explanatory and mathematical analysis activities. <FigureLink id="fig-iwa">Figure 4</FigureLink> shows that the hardest activities combine open-ended advisory framing with case-specific quantitative or evaluative reasoning. These mappings are indicative rather than definitive. O*NET work activities are broad and only loosely tied to what any single case question tests, so implied occupation-level results in <FigureLink id="fig-iwa">Figure 4</FigureLink> and <FigureLink id="fig-onet">Figure 7</FigureLink> should be read together with how thoroughly each job’s relevant activities appear in the benchmark.
             </p>
             <FigureBlock figureIdx={3} wide onOpen={openFigure} />
           </section>
