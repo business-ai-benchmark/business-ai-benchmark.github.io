@@ -909,7 +909,7 @@ export default function App() {
                   </li>
                   <li className="flex items-start gap-4">
                     <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-amber-500 shrink-0 mt-1" />
-                    <span>Case narratives <HighlightLink href="#tab-representative-questions">simulate a realistic decision context</HighlightLink> other benchmarks miss, including synthesizing messy and incomplete information, <HighlightLink href="#pull-quote-nohria-information">making decisions under uncertainty</HighlightLink>, weighing trade-offs, and defending structured recommendations when there may be no single right answer.</span>
+                    <span>Case narratives <HighlightLink href="#tab-representative-questions">simulate a realistic decision context</HighlightLink> other benchmarks miss, including synthesizing messy and incomplete information, <HighlightLink href="#pull-quote-nohria-information">making decisions under uncertainty</HighlightLink>, weighing trade-offs, and defending structured analyses when there may be no single right answer.</span>
                   </li>
                   <li className="flex items-start gap-4">
                     <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-amber-500 shrink-0 mt-1" />
