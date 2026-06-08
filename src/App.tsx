@@ -123,7 +123,7 @@ const figures = [
   {
     id: "fig-scores",
     src: "/figures/complete_answer_vs_standard_score_by_discipline.png",
-    caption: "Figure 2: Frontier model performance under Standard scoring (partial credit) and Complete Answer scoring (every rubric criterion satisfied). Partial-credit scores are high. Full rubric satisfaction is much lower and varies sharply by discipline."
+    caption: "Figure 2: Frontier model performance under Standard scoring (partial credit) and Complete Answer scoring (every rubric criterion satisfied). Partial credit scores are high. Full rubric satisfaction is much lower and varies sharply by discipline."
   },
   {
     id: "fig-trajectory",
@@ -213,6 +213,7 @@ const tocItems = [
   { id: "references", title: "References" },
   { id: "appendix", title: "Appendix", sub: [
     { id: "scoring", title: "How We Scored Responses" },
+    { id: "human-annotation", title: "Human Annotation Validation" },
     { id: "scoring-math", title: "Scoring Formulas" },
     { id: "composition", title: "Benchmark Composition" },
     { id: "progress-by-discipline", title: "Progress By Discipline" }
@@ -1011,10 +1012,10 @@ export default function App() {
             </figure>
 
             <p>
-              For every question, the instructor case solutions supply a reference solution that we extract and use to generate an equally-weighted checklist rubric. A frontier model receives the full case narrative and exam-style question prompt and produces an open-ended attempted solution in a single turn. The attempted solution is evaluated with a fixed LLM-as-judge <RefLink id="ref5">5</RefLink> against each rubric criterion, as shown in <FigureLink id="fig-pipeline">Figure 1</FigureLink>. Human annotators with business school grading experience also validated automatic rubrics and grading on a stratified sample.
+              For every question, the instructor case solutions supply a reference solution that we extract and use to generate an equally-weighted checklist rubric. A frontier model receives the full case narrative and exam-style question prompt and produces an open-ended attempted solution in a single turn. The attempted solution is evaluated with a fixed LLM-as-judge <RefLink id="ref5">5</RefLink> against each rubric criterion, as shown in <FigureLink id="fig-pipeline">Figure 1</FigureLink>. For a subset of questions, three annotators with business school grading experience independently authored checklist rubrics and graded each assigned response before viewing any automated rubric or score. This blinded protocol on a stratified random sample checks whether automated rubrics and LLM-as-judge grading measure attempted-solution quality in a way that directionally correlates with expert judgment.
             </p>
             <p>
-              We report two complementary metrics. <strong>Standard scoring</strong> awards partial credit as the rubric-weighted fraction of criteria satisfied. It captures how much of what the instructor case solution expected the model actually produced, even when not every element is present. <strong>Complete Answer scoring</strong> is all-or-nothing. It marks whether a model satisfies every criterion on a question’s rubric. High Standard scores with much lower Complete Answer scores mean analytically strong drafts, not responses that satisfy every rubric criterion without review. Complete Answer scoring is deliberately conservative—a lower bound in which one missed criterion fails the question. On subjective, open-ended questions, that can happen even when satisfied criteria would support a strong partial-credit grade that many instructors might treat as analytically sufficient, where full rubric satisfaction might be an unreasonably strict expectation.
+              We report two complementary metrics. <strong>Standard scoring</strong> awards partial credit as the rubric-weighted fraction of criteria satisfied. It captures how much of what the instructor case solution expected the model actually produced, even when not every element is present. <strong>Complete Answer scoring</strong> is all-or-nothing. It marks whether a model satisfies every criterion on a question’s rubric. High Standard scores with much lower Complete Answer scores mean analytically strong drafts, not responses that satisfy every rubric criterion without review. Complete Answer scoring is deliberately conservative—a lower bound in which one missed criterion fails the question. On subjective, open-ended questions, that can happen even when satisfied criteria would support a strong partial credit grade that many instructors might treat as analytically sufficient, where full rubric satisfaction might be an unreasonably strict expectation.
             </p>
           </section>
 
@@ -1078,7 +1079,7 @@ export default function App() {
             </p>
             <FigureBlock figureIdx={6} wide onOpen={openFigure} />
             <p className="text-base text-slate-600">
-              <strong>Limitations:</strong> Our evaluation is single-turn, English-only, and rubric-guided. It does not measure iterative clarification, negotiation, or formal accountability inside organizations. LLM-as-judge grading can miss extraneous or incorrect content outside the checklist. These boundaries define where human-AI teaming may matter most and where subsequent work should connect measured capability to institutional outcomes.
+              <strong>Limitations:</strong> Our evaluation is single-turn, English-only, and rubric-guided. It does not measure iterative clarification, negotiation, or formal accountability inside organizations. LLM-as-judge grading can miss extraneous or incorrect content outside the checklist and retains residual risks even after human validation. These boundaries define where human-AI teaming may matter most and where subsequent work should connect measured capability to institutional outcomes.
             </p>
           </section>
 
@@ -1110,11 +1111,19 @@ export default function App() {
               <li>Generate equally-weighted checklist rubrics from exam-style question prompts and reference solutions in the instructor case solution.</li>
               <li>Prompt frontier AI solver models with the full case narrative and exam-style question prompt in one turn, with no tools or retrieval.</li>
               <li>Grade with a fixed LLM-as-judge (Gemini 2.5 Flash) held constant across all solver models <RefLink id="ref5">5</RefLink>.</li>
-              <li>
-                Validate automated rubrics and grades with blinded human annotators experienced in business school grading.{" "}
-                <span className="font-bold text-red-600">TODO: Add a sentence here on results of human annotator experiments.</span>
-              </li>
+              <li>Validate automated rubrics and grades with blinded human annotators experienced in business school grading, who author independent rubrics and grade responses before viewing automated outputs.</li>
             </ul>
+
+            <h3 id="human-annotation" className="text-2xl font-display font-medium text-slate-800 mt-10 scroll-mt-12">Human Annotation Validation</h3>
+            <p>
+              Three annotators with business school grading experience completed a seven-step workflow in a custom web interface. Staged unblinding kept human rubrics and grades from being shaped by automated outputs. Annotators could read the case PDF, instructor case solution PDF, question, and reference solution throughout, but viewed the model&apos;s attempted answer only after writing an independent rubric, and saw automated rubrics and scores only in later comparison steps. Annotators first judged whether each question and reference solution were usable and well-formed, then independently authored a checklist rubric and graded the attempted answer, then evaluated and compared the automated rubric and LLM-as-judge Standard score to their own.
+            </p>
+            <p>
+              Validation statistics focus on ten assignments in which all three annotators judged the same case, question, and model response. Grading open-ended case responses is necessarily somewhat subjective. Annotators wrote independent rubrics with a mean of 10.7 criteria items and a mean pairwise difference of 3.6 items, and they often assigned different partial credit scores to the same model response, so we do not expect automated scores to match any single human score exactly. Automated Standard scores correlated with human partial credit scores at Spearman <InlineMath math="\rho = 0.54" />. Annotators rated 100% of automated rubrics and 96% of LLM-as-judge Standard scores acceptable or mainly acceptable. In 74% of assignments they preferred the automated score or judged it equivalent to their own. Agreement between automated and human scores is close to agreement among annotators. Forty percent of automated and human score pairs fell within ten percentage points, compared with 46.7% for inter-annotator pairs, and the automated judge was on average 6.4 percentage points more lenient.
+            </p>
+            <p>
+              These results do not establish exact agreement between automated and human grading scores. They support a narrower claim that is sufficient for benchmark use. Retained questions and instructor-derived reference solutions passed human quality screening, expert graders endorsed the automatically generated rubric and LLM-as-judge Standard scores after working independently, and automated Standard scores correlate with human partial credit scores in the same direction. The validation evidence indicates that the automatic grading procedure is directionally aligned with expert judgment and appropriate for tracking relative progress across models, disciplines, and model generations.
+            </p>
 
             <h3 id="scoring-math" className="text-2xl font-display font-medium text-slate-800 mt-10 mb-4 scroll-mt-12">Scoring Formulas</h3>
             <p>
